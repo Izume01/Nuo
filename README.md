@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Invoice Generator (Next.js 15)
 
-## Getting Started
+Create professional invoices fast with a chat-driven flow and a live PDF preview. Built with Next.js App Router, React 19, Zustand, and `@react-pdf/renderer`.
 
-First, run the development server:
+## Highlights
 
+- **Chat-driven data entry**: Answer questions; fields update in real-time
+- **Live PDF preview**: Two themes (Professional, Creative), responsive and fast
+- **Edit fields directly**: Items, taxes, discounts, dates, currency, etc.
+- **PDF export**: One-click download of the exact preview
+- **State management**: Centralized with Zustand for instant sync between chat and form
+
+## Quick start
+
+Install dependencies and run the dev server:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000/dashboard`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment (optional, for AI chat)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If you want the AI assistant to parse messages and fill fields, add an API key:
 
-## Learn More
+1) Create a `.env.local` in the project root:
+```
+GEMINI_API_KEY=your_api_key
+```
+2) Restart the dev server after creating the file.
 
-To learn more about Next.js, take a look at the following resources:
+The API route uses the official Gemini SDK [`@google/genai`](https://github.com/googleapis/js-genai).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+  app/
+    (dashboard)/dashboard/page.tsx      # Main UI (chat + preview)
+    api/invoice/route.ts                 # AI parsing endpoint (Gemini)
+  components/
+    invoice/InvoiceChat.tsx              # Chat UI
+    invoice/InvoicePreview.tsx           # PDF viewer + editable fields
+    invoice/InvoicePDF.tsx               # PDF document
+  store/
+    useInvoice.ts                        # Zustand store (invoice state)
+```
 
-## Deploy on Vercel
+## Common actions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Add an item: use the “Add Item” button or type in chat (when AI is enabled)
+- Toggle theme: button on the dashboard header
+- Edit signature: choose source (From/To/Custom) and optional custom name
+- Download PDF: use the “Download PDF” button above the preview
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+- The PDF viewer and download run only on the client (SSR is disabled for these components)
+- Remote fonts for signatures require a TTF source to work in PDFs

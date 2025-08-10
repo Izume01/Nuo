@@ -185,6 +185,23 @@ export function InvoicePDF({ data, theme }: Props) {
               <Text style={[stylesBase.colTotal, { fontWeight: 500 }]}>{format(it.quantity * it.unitPrice)}</Text>
             </View>
           ))}
+          
+          {/* Add empty rows when there are few items to maintain consistent spacing */}
+          {data.items.length < 4 && Array.from({ length: 4 - data.items.length }).map((_, index) => (
+            <View
+              key={`empty-${index}`}
+              style={[
+                stylesBase.tableRow,
+                { borderColor: themeStyles.border.borderColor, minHeight: 30 },
+                (data.items.length + index) % 2 ? themeStyles.altRow : {}
+              ]}
+            >
+              <Text style={stylesBase.colDesc}></Text>
+              <Text style={stylesBase.colQty}></Text>
+              <Text style={stylesBase.colPrice}></Text>
+              <Text style={stylesBase.colTotal}></Text>
+            </View>
+          ))}
         </View>
 
         {/* TOTALS */}

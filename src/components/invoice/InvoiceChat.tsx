@@ -1,17 +1,25 @@
 'use client'
 
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useInvoiceStore } from '@/store/useInvoice'
 import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'motion/react'
+import usePromptStore from '@/store/usePrompt'
 
 export default function InvoiceChat() {
   const { chat, addChat, applyUpdates } = useInvoiceStore()
   const [input, setInput] = useState('')
   const listRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState(false)
+  const { prompt, setPrompt } = usePromptStore()
 
-  // Removed local question mapping; Gemini now returns structured updates.
+  useEffect(() => {
+    if (prompt && !input) {
+      setInput(prompt)
+      setPrompt('')
+    }
+  }, [prompt])
+
 
   const handleSend = async () => {
     if (!input.trim()) return

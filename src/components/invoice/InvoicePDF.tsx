@@ -187,7 +187,7 @@ export function InvoicePDF({ data, theme }: Props) {
           ))}
           
           {/* Add empty rows when there are few items to maintain consistent spacing */}
-          {data.items.length < 4 && Array.from({ length: 4 - data.items.length }).map((_, index) => (
+          {data.items.length < 5 && Array.from({ length: 5 - data.items.length }).map((_, index) => (
             <View
               key={`empty-${index}`}
               style={[

@@ -14,7 +14,7 @@ export default function DashboardPage() {
           <InvoiceChat />
         </div>
         <div className="h-full min-h-0 overflow-y-auto">
-          <h1 className="text-2xl font-semibold">Preview</h1>
+          <h1 className="text-2xl font-semibold mb-4 pl-4">Preview</h1>
           <InvoicePreview />
         </div>
       </div>

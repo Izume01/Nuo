@@ -49,7 +49,6 @@ export default function Hero() {
         </div>
       </section>
 
-      {/* Value bullets (animated, polished) */}
       <section className="container mx-auto px-4 py-10 sm:py-12">
         <div className="relative mx-auto max-w-5xl">
           <div className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(60%_60%_at_50%_40%,black,transparent)] bg-[radial-gradient(50%_50%_at_20%_20%,theme(colors.primary/20),transparent),radial-gradient(40%_40%_at_80%_30%,theme(colors.ring/25),transparent)]" />

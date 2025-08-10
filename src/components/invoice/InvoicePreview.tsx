@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useInvoiceStore } from '@/store/useInvoice'
 import InvoicePDF from './InvoicePDF'
@@ -15,12 +15,11 @@ const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((m) => m.PDFV
 
 export default function InvoicePreview() {
   const { data, theme, setField, addItem, updateItem, removeItem, version, setTheme } = useInvoiceStore()
-  const [scale, setScale] = useState(1)
   const toggle = () => setTheme(theme === 'professional' ? 'creative' : 'professional')
 
   const viewerStyle: React.CSSProperties = useMemo(() => ({
     width: '100%',
-    height: 'min(72vh, calc(100vh - 220px))',
+    height: '72vh',
     borderRadius: 14,
     border: '1px solid var(--border)',
     boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
@@ -30,9 +29,6 @@ export default function InvoicePreview() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-2">
-        <Button variant="outline" onClick={() => setScale((s) => Math.max(0.6, s - 0.1))}>-</Button>
-        <div className="text-sm w-16 text-center">{Math.round(scale * 100)}%</div>
-        <Button variant="outline" onClick={() => setScale((s) => Math.min(2, s + 0.1))}>+</Button>
         <div style={{ marginLeft: 'auto' }}>
           <Button
             variant="secondary"
@@ -54,7 +50,7 @@ export default function InvoicePreview() {
           <Button variant="outline" onClick={toggle}>Theme: {theme === 'professional' ? 'Professional' : 'Creative'}</Button>
         </div>
       </div>
-      <div style={{ transform: `scale(${scale})`, transformOrigin: 'top left', width: '100%' }}>
+      <div className="w-full overflow-auto">
         <PDFViewer style={viewerStyle} showToolbar={false} key={version}>
           <InvoicePDF data={data} theme={theme} />
         </PDFViewer>
@@ -164,9 +160,9 @@ export default function InvoicePreview() {
               <input className="input col-span-2" type="number" placeholder="Qty" value={it.quantity} onChange={(e) => updateItem(it.id, { quantity: Number(e.target.value) })} />
               <input className="input col-span-2" type="number" placeholder="Price" value={it.unitPrice} onChange={(e) => updateItem(it.id, { unitPrice: Number(e.target.value) })} />
               <Button
-                variant="outline"
+                variant="destructive"
                 size="sm"
-                className="col-span-2 text-destructive border-destructive/40 hover:bg-destructive/10"
+                className="col-span-2 text-destructive border-destructive/40 hover:text-red-500"
                 onClick={() => removeItem(it.id)}
               >
                 Remove
